@@ -10,13 +10,16 @@
 
   outputs = inputs@{ self, nix-darwin, nixpkgs, nix-homebrew }:
   let
-    configuration = { pkgs, ... }: {
+    configuration = { pkgs, config, ... }: {
       # List packages installed in system profile. To search by name, run:
       # $ nix-env -qaP | grep wget
+
+	nixpkgs.config.allowUnfree = true;
       environment.systemPackages =
         [ pkgs.vim
 	  pkgs.alacritty
 	  pkgs.tmux
+	  pkgs.obsidian
 	  pkgs.nodejs
         ];
 
@@ -33,6 +36,15 @@
 			"the-unarchiver"
 		];
 		onActivation.cleanup = "zap";
+		onActivation.autoUpdate = true;
+		onActivation.upgrade = true;
+	};
+
+	system.defaults = {
+		dock.autohide = true;
+		NSGlobalDomain.AppleICUForce24HourTime = true;
+		NSGlobalDomain.AppleInterfaceStyle = "Dark";
+		NSGlobalDomain.KeyRepeat = 2;
 	};
 
       # Auto upgrade nix package and the daemon service.
