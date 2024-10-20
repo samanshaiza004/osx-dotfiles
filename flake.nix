@@ -20,7 +20,9 @@
 	  pkgs.alacritty
 	  pkgs.tmux
 	  pkgs.obsidian
-	  pkgs.nodejs
+	  (pkgs.nodejs.overrideAttrs (oldAttrs: {
+		version = "10.9.0";
+	}))
         ];
 
       fonts.packages = [
